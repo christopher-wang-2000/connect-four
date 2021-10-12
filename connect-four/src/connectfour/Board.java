@@ -31,7 +31,7 @@ public class Board {
 		// fill grid with hyphens as default "empty" character
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
-				grid[i][j] = '-';
+				grid[i][j] = '.';
 			}
 		}
 		

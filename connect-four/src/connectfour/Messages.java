@@ -5,6 +5,14 @@ package connectfour;
 
 public class Messages {
 	
+	static final String settings = "Do you want to customize the game settings? (yes/no)";
+	static final String widthPrompt = "Enter a number for the width of the board. (Default: 7)";
+	static final String heightPrompt = "Enter a number for the height of the board. (Default: 7)";
+	static final String p1Prompt = "Enter a single character to represent Player 1's game pieces. (Default: X)";
+	static final String p2Prompt = "Enter a single character to represent Player 2's game pieces. (Default: O)";
+	static final String winPrompt = "Enter a number for the number of consecutive pieces required to win. (Default: 4)";
+	static final String invalidInput = "Invalid input! ";
+	
 	static final String p1Add = "Player 1: Input the letter of a column to add a piece.";
 	static final String p2Add = "Player 2: Input the letter of a column to add a piece.";
 	static final String columnFull = "That column is full! Please select another column.";

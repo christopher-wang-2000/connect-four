@@ -13,11 +13,11 @@ public class ConnectFour {
 
 	public static void main(String[] args) {
 		
-		Board b = new Board(width, height);
-		
-		b.printBoard();
-		
 		Scanner in = new Scanner(System.in);
+		gameSetup(in);
+		
+		Board b = new Board(width, height);
+		b.printBoard();
 		
 		int moves = 0; // keeps track of number of moves so far
 		
@@ -37,7 +37,6 @@ public class ConnectFour {
 			}
 			
 			b.printBoard();
-			moves++;
 			
 			// check if someone won
 			if (checkVictory(b, col)) {
@@ -53,6 +52,8 @@ public class ConnectFour {
 				in.close();
 				return;
 			}
+			
+			moves++;
 		}
 		
 		// if nobody won, print message indicating that game ended in a tie
@@ -96,8 +97,85 @@ public class ConnectFour {
 	// checks if the player who just placed a piece in this column has just won the game
 	static boolean checkVictory(Board b, int col) {
 		// if more than four in a row, then victory has occurred
-		return b.inARow(col, b.colHeights[col]-1) >= 4;
+		return b.inARow(col, b.colHeights[col]-1) >= win;
 	}
 	
+	// allows user to customize settings of the game
+	static void gameSetup(Scanner in) {
+		
+		// obtain input for whether to customize the settings
+		System.out.println(Messages.settings);
+		String input = in.nextLine();
+
+		while (true) {
+			if (input.length() != 0) {
+				if (input.charAt(0) == 'Y' || input.charAt(0) == 'y') {
+					break; // proceed with settings customization
+				}
+				else if (input.charAt(0) == 'N' || input.charAt(0) == 'n') {
+					return; // resume without settings customization
+				}
+			}
+			// if input is invalid, re-prompt for valid input
+			System.out.println(Messages.invalidInput + Messages.settings);
+			input = in.nextLine();
+		}
+		
+		// obtain customizable input from user
+		width = numberPrompt(in, Messages.widthPrompt);
+		height = numberPrompt(in, Messages.heightPrompt);
+		p1 = charPrompt(in, Messages.p1Prompt);
+		p2 = charPrompt(in, Messages.p2Prompt);
+		win = numberPrompt(in, Messages.winPrompt);
+		
+	}
+	
+	// prompts the user for a natural number input and returns it
+	static int numberPrompt(Scanner in, String message) {
+		
+		// prompt for initial input
+		System.out.println(message);
+		String input = in.nextLine();
+		
+		// keep re-prompting until a natural number is obtained
+		while (!stringIsNatural(input)) {
+			System.out.println(Messages.invalidInput + message);
+			input = in.nextLine();
+		}
+		return Integer.parseInt(input);
+	}
+	
+	static char charPrompt(Scanner in, String message) {
+		
+		// prompt for initial input
+		System.out.println(message);
+		String input = in.nextLine();
+		
+		// keep re-prompting until a single character is obtained
+		while (input.length() != 1 || input.charAt(0) == ' ' || input.charAt(0) == '.') {
+			System.out.println(Messages.invalidInput + message);
+			input = in.nextLine();
+		}
+		return input.charAt(0);
+	}
+	
+	// checks if a string is a natural number (positive integer)
+	public static boolean stringIsNatural(String s) {
+		// if string is too short or too long, it is not valid
+		if (s.length() == 0 || s.length() > 9) {
+			return false;
+		}
+		
+		// if string has non-numeric characters, it is not valid
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i) < '0' || s.charAt(i) > '9') {
+				return false;
+			}
+		}
+		
+		// only natural number if non-zero
+		return Integer.parseInt(s) != 0;
+		
+	}
 
 }
