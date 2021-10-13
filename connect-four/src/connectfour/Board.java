@@ -100,6 +100,19 @@ public class Board {
 		return true;
 	}
 	
+	// tries to remove a piece from a column; returns true if successful and false if not
+	boolean removePiece(int col) {
+		
+		if (colHeights[col] == 0) {
+			return false;
+		}
+		
+		grid[col][colHeights[col]-1] = '.'; // reset the character to blank
+		colHeights[col]--; // decrement column height
+		return true;
+		
+	}
+	
 	int inARow(int x, int y) {
 		
 		char symbol = grid[x][y];

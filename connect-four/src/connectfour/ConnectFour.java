@@ -9,7 +9,8 @@ public class ConnectFour {
 	static int height = 7;
 	static char p1 = 'X'; // symbol for Player 1's pieces
 	static char p2 = 'O'; // symbol for Player 2's pieces
-	static int win = 4; // number in a row needed to win 
+	static int win = 4; // number in a row needed to win
+	static boolean onePlayer; // keeps track of 1P or 2P mode
 
 	public static void main(String[] args) {
 		
@@ -31,9 +32,14 @@ public class ConnectFour {
 				col = nextTurn(b, in, Messages.p1Add, p1);
 			}
 			
-			// if it's Player's 2 turn
+			// if it's Player's 2 or CPU's turn
 			else {
-				col = nextTurn(b, in, Messages.p2Add, p2);
+				if (onePlayer) {
+					col = Opponent.play(b, p2);
+				}
+				else {
+					col = nextTurn(b, in, Messages.p2Add, p2);
+				}
 			}
 			
 			b.printBoard();
@@ -42,11 +48,22 @@ public class ConnectFour {
 			if (checkVictory(b, col)) {
 				
 				// print victory message for winning player
+				// according to correct gamemode (1P or 2P)
 				if (moves % 2 == 0) {
-					System.out.println(Messages.p1Victory);
+					if(onePlayer) {
+						System.out.println(Messages.playerVictory);
+					}
+					else {
+						System.out.println(Messages.p1Victory);
+					}
 				}
 				else {
-					System.out.println(Messages.p1Victory);
+					if(onePlayer) {
+						System.out.println(Messages.cpuVictory);
+					}
+					else {
+						System.out.println(Messages.p2Victory);
+					}
 				}
 				
 				in.close();
@@ -103,9 +120,29 @@ public class ConnectFour {
 	// allows user to customize settings of the game
 	static void gameSetup(Scanner in) {
 		
+		// obtain input for whether to play 1P or 2P
+		System.out.println(Messages.gameMode);
+		String input = in.nextLine();
+
+		while (true) {
+			if (input.length() != 0) {
+				if (input.charAt(0) == '1') {
+					onePlayer = true;
+					break;
+				}
+				else if (input.charAt(0) == '2') {
+					onePlayer = false;
+					break;
+				}
+			}
+			// if input is invalid, re-prompt for valid input
+			System.out.println(Messages.invalidInput + Messages.gameMode);
+			input = in.nextLine();
+		}
+		
 		// obtain input for whether to customize the settings
 		System.out.println(Messages.settings);
-		String input = in.nextLine();
+		input = in.nextLine();
 
 		while (true) {
 			if (input.length() != 0) {
