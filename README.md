@@ -20,3 +20,9 @@ How the game works:
 - Each turn, the program prompts the user for a column to add their piece to. If the column is full or invalid, the program re-prompts the user.
 - After each move, the program updates and prints the board and checks whether the piece that has just been added has resulted in a victory (4 in a row). If so, it prints a victory message for the winning player.
 - If the board is full and nobody has won, the game ends in a draw.
+
+How the AI opponent works:
+- It checks whether any of the moves it could make would result in it winning, and if so, it plays that move.
+- If no such winning moves exist, it simulates all possible moves of the player after its next move. It removes all moves that would allow the player to win from the list of possible moves.
+- From the remaining list of possible moves, it selects one at random.
+- Currently WIP: I'm currently working on a implementation where the AI can simulate any number of future turns, rather than just one or two, and find moves that allow it to force a win over the player and avoid the player being able to force the AI to lose.
